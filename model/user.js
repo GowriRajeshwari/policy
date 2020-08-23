@@ -6,16 +6,16 @@ const userSchema = mongoose.Schema(
       type: String,
     },
     Dob: {
-      type: Number,
+      type: String,
     },
     email: {
       type: String,
     },
     phone_number: {
-      type: Number,
+      type: String,
     },
     zip_code: {
-      type: Number,
+      type: String,
     },
     state: {
       type: String,

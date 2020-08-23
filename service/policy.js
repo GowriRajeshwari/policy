@@ -20,25 +20,26 @@ module.exports = class policy {
       workbook.csv.readFile(fileupload).then((worksheet) => {
         worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
           // console.log("Row " + rowNumber + "=" + JSON.stringify(row.values));
-          // console.log("N2", worksheet.getCell("A2").value);
+          let currRow = worksheet.getRow(rowNumber);
+          // console.log("N2", currRow.getCell(23).value);
           agentService
-            .addAgent({ agent_name: worksheet.getCell("A2").value })
+            .addAgent({ agent_name: currRow.getCell(1).value })
             .then((agentServiceData) => {
               // resolve(data);
               userAccountService
-                .userAccount({ account_name: worksheet.getCell("N2").value })
+                .userAccount({ account_name: currRow.getCell(14).value })
                 .then((userAccountServiceData) => {
                   // resolve(data);
                   let userData = {
-                    first_name: worksheet.getCell("Q2").value,
-                    Dob: worksheet.getCell("X2").value,
-                    email: worksheet.getCell("O2").value,
-                    phone_number: worksheet.getCell("T2").value,
-                    zip_code: worksheet.getCell("W2").value,
-                    state: worksheet.getCell("V2").value,
-                    address: worksheet.getCell("U2").value,
-                    gender: worksheet.getCell("P2").value,
-                    user_type: worksheet.getCell("B2").value,
+                    first_name: currRow.getCell(17).value,
+                    Dob: currRow.getCell(24).value,
+                    email: currRow.getCell(15).value,
+                    phone_number: currRow.getCell(20).value,
+                    zip_code: currRow.getCell(23).value,
+                    state: currRow.getCell(22).value,
+                    address: currRow.getCell(21).value,
+                    gender: currRow.getCell(16).value,
+                    user_type: currRow.getCell(2).value,
                   };
                   userService
                     .user(userData)
@@ -46,22 +47,21 @@ module.exports = class policy {
                       // resolve(data);
                       policyCarrierService
                         .policyCarrier({
-                          company_name: worksheet.getCell("I2").value,
+                          company_name: currRow.getCell(9).value,
                         })
                         .then((policyCarrierServiceData) => {
                           // resolve(data);
                           policyCategoryService
                             .policyCategory({
-                              category_name: worksheet.getCell("J2").value,
+                              category_name: currRow.getCell(10).value,
                             })
                             .then((policyCategoryServiceData) => {
                               // resolve(policyCategoryServiceData);
                               let policyInfoData = {
-                                policy_number: worksheet.getCell("E2").value,
-                                policy_start_date: worksheet.getCell("K2")
-                                  .value,
-                                policy_end_date: worksheet.getCell("L2").value,
-                                policy_category: worksheet.getCell("H2").value,
+                                policy_number: currRow.getCell(5).value,
+                                policy_start_date: currRow.getCell(11).value,
+                                policy_end_date: currRow.getCell(12).value,
+                                policy_category: currRow.getCell(8).value,
                                 agent_id: agentServiceData._id,
                                 user_id: userServicData._id,
                                 user_account_id: userAccountServiceData._id,

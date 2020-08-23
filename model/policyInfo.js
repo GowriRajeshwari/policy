@@ -6,11 +6,11 @@ const userSchema = mongoose.Schema(
       required: [true, "policy_number must be provided"],
     },
     policy_start_date: {
-      type: Number,
+      type: String,
       required: [true, "policy start date cannot be left blank"],
     },
     policy_end_date: {
-      type: Number,
+      type: String,
       required: [true, "policy end date must be provided"],
     },
     policy_category: {
