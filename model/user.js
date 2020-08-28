@@ -4,30 +4,39 @@ const userSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
+      unique: true,
     },
     Dob: {
       type: String,
+      unique: true,
     },
     email: {
       type: String,
+      unique: true,
     },
     phone_number: {
       type: String,
+      unique: true,
     },
     zip_code: {
       type: String,
+      unique: true,
     },
     state: {
       type: String,
+      unique: true,
     },
     address: {
       type: String,
+      unique: true,
     },
     gender: {
       type: String,
+      unique: true,
     },
     user_type: {
       type: String,
+      unique: true,
     },
   },
   {

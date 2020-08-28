@@ -1,48 +1,48 @@
-const agent = require("../service/agent.js");
-userAccount = require("../service/userAccount.js");
-user = require("../service/user");
-policyCarrier = require("../service/policyCarrier");
-policyCategory = require("../service/policyCategory");
-policyInfo = require("../service/policyInfo");
+// const agent = require("../service/agent.js");
+// userAccount = require("../service/userAccount.js");
+// user = require("../service/user");
+// policyCarrier = require("../service/policyCarrier");
+// policyCategory = require("../service/policyCategory");
+// policyInfo = require("../service/policyInfo");
 
-let agentService = new agent();
-let userAccountService = new userAccount();
-let userService = new user();
-let policyCarrierService = new policyCarrier();
-let policyCategoryService = new policyCategory();
-let policyInfoService = new policyInfo();
+// let agentService = new agent();
+// let userAccountService = new userAccount();
+// let userService = new user();
+// let policyCarrierService = new policyCarrier();
+// let policyCategoryService = new policyCategory();
+// let policyInfoService = new policyInfo();
 
-const Excel = require("exceljs");
-var workbook = new Excel.Workbook();
-module.exports = class policy {
-  policyInfo(fileupload) {
-    return new Promise((resolve, reject) => {
-      workbook.csv.readFile(fileupload).then((worksheet) => {
-        worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
-          Promise.all([Promise1(worksheet)])
-            .then((res) => {
-              resolve(res);
-            })
-            .catch((err) => {
-              reject(err);
-            });
-        });
-      });
-    });
-  }
-};
-const Promise1 = (worksheet) => {
-  return new Promise((resolve, reject) => {
-    agentService
-      .addAgent({ agent_name: worksheet.getCell("A2").value })
-      .then((agentServiceData) => {
-        resolve(agentServiceData);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-};
+// const Excel = require("exceljs");
+// var workbook = new Excel.Workbook();
+// module.exports = class policy {
+//   policyInfo(fileupload) {
+//     return new Promise((resolve, reject) => {
+//       workbook.csv.readFile(fileupload).then((worksheet) => {
+//         worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
+//           Promise.all([Promise1(worksheet)])
+//             .then((res) => {
+//               resolve(res);
+//             })
+//             .catch((err) => {
+//               reject(err);
+//             });
+//         });
+//       });
+//     });
+//   }
+// };
+// const Promise1 = (worksheet) => {
+//   return new Promise((resolve, reject) => {
+//     agentService
+//       .addAgent({ agent_name: worksheet.getCell("A2").value })
+//       .then((agentServiceData) => {
+//         resolve(agentServiceData);
+//       })
+//       .catch((err) => {
+//         reject(err);
+//       });
+//   });
+// };
 
 // userAccountService
 //   .userAccount({ account_name: worksheet.getCell("N2").value })
@@ -114,3 +114,24 @@ const Promise1 = (worksheet) => {
 //   .catch((err) => {
 //     reject(err);
 //   });
+async.waterfall(
+  [
+    function (callback) {
+      callback(null, "Task 1", "Task 2");
+    },
+    function (arg1, arg2, callback) {
+      // arg1 now equals 'Task 1' and arg2 now equals 'Task 2'
+      let arg3 = arg1 + " and " + arg2;
+      callback(null, arg3);
+    },
+    function (arg1, callback) {
+      // arg1 now equals 'Task1 and Task2'
+      arg1 += " completed";
+      callback(null, arg1);
+    },
+  ],
+  function (err, result) {
+    // result now equals to 'Task1 and Task2 completed'
+    console.log(result);
+  }
+);

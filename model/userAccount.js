@@ -4,6 +4,7 @@ const userAccountSchema = mongoose.Schema(
   {
     account_name: {
       type: String,
+      unique: true,
     },
   },
   {
@@ -20,6 +21,6 @@ module.exports = class model {
     return userName.save();
   }
   find(req) {
-    return userAccountModel.find(req.find);
+    return userAccountModel.findOne(req);
   }
 };

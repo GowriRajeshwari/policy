@@ -48,15 +48,16 @@ const userSchema = mongoose.Schema(
   }
 );
 
-var userModel = mongoose.model("policyInfo", userSchema);
-exports.userModel;
+var policyInfoModel = mongoose.model("policyInfo", userSchema);
+exports.policyInfoModel;
 
 module.exports = class model {
   create(req) {
-    let userDetails = new userModel(req);
+    let userDetails = new policyInfoModel(req);
     return userDetails.save();
   }
-  find(req) {
-    return userModel.findOne(req);
+  find(id) {
+    let o_id = mongoose.Types.ObjectId(id);
+    return policyInfoModel.find({ user_id: o_id });
   }
 };

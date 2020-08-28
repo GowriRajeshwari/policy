@@ -4,6 +4,7 @@ const policyCategorySchema = mongoose.Schema(
   {
     category_name: {
       type: String,
+      unique: true,
     },
   },
   {
@@ -23,6 +24,6 @@ module.exports = class model {
     return category_name.save();
   }
   find(req) {
-    return policyCategoryModel.find(req.find);
+    return policyCategoryModel.findOne(req);
   }
 };

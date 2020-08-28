@@ -4,6 +4,7 @@ const policyCarrierSchema = mongoose.Schema(
   {
     company_name: {
       type: String,
+      unique: true,
     },
   },
   {
@@ -20,6 +21,6 @@ module.exports = class model {
     return company_name.save();
   }
   find(req) {
-    return policyCarrierModel.find(req.find);
+    return policyCarrierModel.findOne(req);
   }
 };

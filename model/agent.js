@@ -4,6 +4,7 @@ const agentSchema = mongoose.Schema(
   {
     agent_name: {
       type: String,
+      unique: true,
     },
   },
   {
@@ -20,6 +21,6 @@ module.exports = class model {
     return agentName.save();
   }
   find(req) {
-    return agentModel.find(req.find);
+    return agentModel.findOne(req);
   }
 };
