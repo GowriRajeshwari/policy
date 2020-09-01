@@ -9,8 +9,6 @@ module.exports = class agentService {
       userAccountModel
         .create(req)
         .then((data) => {
-          console.log("new data", data);
-
           return data;
         })
         .catch((err) => {

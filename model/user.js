@@ -4,19 +4,15 @@ const userSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
-      unique: true,
     },
     Dob: {
       type: String,
-      unique: true,
     },
     email: {
       type: String,
-      unique: true,
     },
     phone_number: {
       type: String,
-      unique: true,
     },
     zip_code: {
       type: String,
@@ -28,7 +24,6 @@ const userSchema = mongoose.Schema(
     },
     address: {
       type: String,
-      unique: true,
     },
     gender: {
       type: String,
@@ -54,5 +49,8 @@ module.exports = class model {
   }
   find(req) {
     return userModel.findOne(req);
+  }
+  findSearch(req) {
+    return userModel.find(req);
   }
 };

@@ -1,137 +1,164 @@
-// const agent = require("../service/agent.js");
-// userAccount = require("../service/userAccount.js");
-// user = require("../service/user");
-// policyCarrier = require("../service/policyCarrier");
-// policyCategory = require("../service/policyCategory");
-// policyInfo = require("../service/policyInfo");
+const agentM = require("../model/agent.js");
+let agentModel = new agentM();
+const userAccount = require("../model/userAccount.js");
+let userAccountModel = new userAccount();
+const user = require("../model/user.js");
+let userModel = new user();
+const policyCarrier = require("../model/policyCarrier.js");
+let policyCarrierModel = new policyCarrier();
+const policyCategory = require("../model/policyCategory.js");
+let policyCategoryModel = new policyCategory();
+const policyInfo = require("../model/policyInfo.js");
+let policyInfoModel = new policyInfo();
 
-// let agentService = new agent();
-// let userAccountService = new userAccount();
-// let userService = new user();
-// let policyCarrierService = new policyCarrier();
-// let policyCategoryService = new policyCategory();
-// let policyInfoService = new policyInfo();
+var async = require("async");
 
-// const Excel = require("exceljs");
-// var workbook = new Excel.Workbook();
-// module.exports = class policy {
-//   policyInfo(fileupload) {
-//     return new Promise((resolve, reject) => {
-//       workbook.csv.readFile(fileupload).then((worksheet) => {
-//         worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
-//           Promise.all([Promise1(worksheet)])
-//             .then((res) => {
-//               resolve(res);
-//             })
-//             .catch((err) => {
-//               reject(err);
-//             });
-//         });
-//       });
-//     });
-//   }
-// };
-// const Promise1 = (worksheet) => {
-//   return new Promise((resolve, reject) => {
-//     agentService
-//       .addAgent({ agent_name: worksheet.getCell("A2").value })
-//       .then((agentServiceData) => {
-//         resolve(agentServiceData);
-//       })
-//       .catch((err) => {
-//         reject(err);
-//       });
-//   });
-// };
-
-// userAccountService
-//   .userAccount({ account_name: worksheet.getCell("N2").value })
-//   .then((userAccountServiceData) => {
-//     resolve(userAccountServiceData);
-//   })
-//   .catch((err) => {
-//     reject(err);
-//   });
-
-// let userData = {
-//   first_name: worksheet.getCell("Q2").value,
-//   Dob: worksheet.getCell("X2").value,
-//   email: worksheet.getCell("O2").value,
-//   phone_number: worksheet.getCell("T2").value,
-//   zip_code: worksheet.getCell("W2").value,
-//   state: worksheet.getCell("V2").value,
-//   address: worksheet.getCell("U2").value,
-//   gender: worksheet.getCell("P2").value,
-//   user_type: worksheet.getCell("B2").value,
-// };
-// userService
-//   .user(userData)
-//   .then((userServicData) => {
-//     resolve(userServicData);
-//   })
-//   .catch((err) => {
-//     reject(err);
-//   });
-
-// policyCarrierService
-//   .policyCarrier({
-//     company_name: worksheet.getCell("I2").value,
-//   })
-//   .then((policyCarrierServiceData) => {
-//     resolve(policyCarrierServiceData);
-//   })
-//   .catch((err) => {
-//     reject(err);
-//   });
-
-// policyCategoryService
-//   .policyCategory({
-//     category_name: worksheet.getCell("J2").value,
-//   })
-//   .then((policyCategoryServiceData) => {
-//     resolve(policyCategoryServiceData);
-//   })
-//   .catch((err) => {
-//     reject(err);
-//   });
-
-// let policyInfoData = {
-//   policy_number: worksheet.getCell("E2").value,
-//   policy_start_date: worksheet.getCell("K2").value,
-//   policy_end_date: worksheet.getCell("L2").value,
-//   policy_category: worksheet.getCell("H2").value,
-//   agent_id: agentServiceData._id,
-//   user_id: userServicData._id,
-//   user_account_id: userAccountServiceData._id,
-//   policy_category_id: policyCategoryServiceData._id,
-//   policy_carrier_id: policyCarrierServiceData._id,
-// };
-// policyInfoService
-//   .policyInfo(policyInfoData)
-//   .then((data) => {
-//     resolve(data);
-//   })
-//   .catch((err) => {
-//     reject(err);
-//   });
-async.waterfall(
-  [
-    function (callback) {
-      callback(null, "Task 1", "Task 2");
-    },
-    function (arg1, arg2, callback) {
-      // arg1 now equals 'Task 1' and arg2 now equals 'Task 2'
-      let arg3 = arg1 + " and " + arg2;
-      callback(null, arg3);
-    },
-    function (arg1, callback) {
-      // arg1 now equals 'Task1 and Task2'
-      arg1 += " completed";
-      callback(null, arg1);
-    },
-  ],
-  function (err, result) {
-    // result now equals to 'Task1 and Task2 completed'
-    console.log(result);
+const Excel = require("exceljs");
+var workbook = new Excel.Workbook();
+module.exports = class policy {
+  async policyInfo(fileupload) {
+    var operation = [];
+    await workbook.csv.readFile(fileupload).then((worksheet) => {
+      worksheet.eachRow({ includeEmpty: true }, function (row, rowNumber) {
+        let currRow = worksheet.getRow(rowNumber);
+        let data = {
+          agent_name: currRow.getCell(1).value,
+          account_name: currRow.getCell(14).value,
+          first_name: currRow.getCell(17).value,
+          Dob: currRow.getCell(24).value,
+          email: currRow.getCell(15).value,
+          phone_number: currRow.getCell(20).value,
+          zip_code: currRow.getCell(23).value,
+          state: currRow.getCell(22).value,
+          address: currRow.getCell(21).value,
+          gender: currRow.getCell(16).value,
+          user_type: currRow.getCell(2).value,
+          company_name: currRow.getCell(9).value,
+          category_name: currRow.getCell(10).value,
+          policy_number: currRow.getCell(5).value,
+          policy_start_date: currRow.getCell(11).value,
+          policy_end_date: currRow.getCell(12).value,
+          policy_category: currRow.getCell(8).value,
+        };
+        // let dtt = JSON.parse(data);
+        operation.push(data);
+      });
+    });
+    async.forEachLimit(
+      operation,
+      1,
+      function (operation, userCallback) {
+        async.waterfall(
+          [
+            async function (callback) {
+              var ans;
+              let agentData = await agentModel.find({
+                agent_name: operation.agent_name,
+              });
+              if (agentData) {
+                // return callback(null, agentData);
+                ans = agentData;
+              } else {
+                let data = await agentModel.create({
+                  agent_name: operation.agent_name,
+                });
+                ans = data;
+              }
+              return ans;
+            },
+            async function (arg1, callback) {
+              var ans;
+              let finddata = await userAccountModel.find({
+                account_name: operation.account_name,
+              });
+              if (finddata) {
+                ans = finddata;
+              } else {
+                let data = await userAccountModel.create({
+                  account_name: operation.account_name,
+                });
+                ans = data;
+              }
+              // callback(null, arg1, ans);
+              return [arg1, ans];
+            },
+            async function (arg2, callback) {
+              let userData = {
+                first_name: operation.first_name,
+                Dob: operation.Dob,
+                email: operation.email,
+                phone_number: operation.phone_number,
+                zip_code: operation.zip_code,
+                state: operation.state,
+                address: operation.address,
+                gender: operation.gender,
+                user_type: operation.user_type,
+              };
+              var ans;
+              let data = await userModel.create(userData);
+              ans = data;
+              return [arg2[0], arg2[1], ans];
+            },
+            async function (arg3, callback) {
+              var ans;
+              let finddata = await policyCarrierModel.find({
+                company_name: operation.company_name,
+              });
+              if (finddata) {
+                ans = finddata;
+              } else {
+                let data = await policyCarrierModel.create({
+                  company_name: operation.company_name,
+                });
+                and = data;
+              }
+              // console.log("data", arg3[2]);
+              return [arg3[0], arg3[1], arg3[2], ans];
+            },
+            async function (arg4, callback) {
+              var ans;
+              let finddata = await policyCategoryModel.find({
+                category_name: operation.category_name,
+              });
+              if (finddata) {
+                ans = finddata;
+              } else {
+                let data = await policyCategoryModel.create({
+                  category_name: operation.category_name,
+                });
+                and = data;
+              }
+              // console.log("data", arg3[2]);
+              return [arg4[0], arg4[1], arg4[2], arg4[3], ans];
+            },
+            async function (arg5, callback) {
+              let policyInfoData = {
+                policy_number: operation.policy_number,
+                policy_start_date: operation.policy_start_date,
+                policy_end_date: operation.policy_end_date,
+                policy_category: operation.policy_category,
+                agent_id: arg5[0]._id,
+                user_id: arg5[2]._id,
+                user_account_id: arg5[1]._id,
+                policy_category_id: arg5[4]._id,
+                policy_carrier_id: arg5[3]._id,
+              };
+              var ans;
+              let data = await policyInfoModel.create(policyInfoData);
+              and = data;
+              return [ans];
+            },
+          ],
+          function (err, result) {
+            console.log("done");
+            userCallback();
+          }
+        );
+      },
+      function (err) {
+        console.log("User For Loop Completed");
+        return true;
+      }
+    );
   }
-);
+};

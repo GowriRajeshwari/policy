@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
-const userSchema = mongoose.Schema(
+
+const policySchema = mongoose.Schema(
   {
     policy_number: {
       type: String,
-      required: [true, "policy_number must be provided"],
     },
     policy_start_date: {
       type: String,
-      required: [true, "policy start date cannot be left blank"],
     },
     policy_end_date: {
       type: String,
-      required: [true, "policy end date must be provided"],
     },
     policy_category: {
       type: String,
-      required: [true, "phone number cannot be left blank"],
     },
     agent_id: {
       type: mongoose.Types.ObjectId,
@@ -48,16 +45,18 @@ const userSchema = mongoose.Schema(
   }
 );
 
-var policyInfoModel = mongoose.model("policyInfo", userSchema);
-exports.policyInfoModel;
+var policyModel = mongoose.model("policyinfo", policySchema);
+exports.policyModel;
 
 module.exports = class model {
   create(req) {
-    let userDetails = new policyInfoModel(req);
-    return userDetails.save();
+    let polcyinfo = new policyModel(req);
+    return polcyinfo.save();
   }
-  find(id) {
-    let o_id = mongoose.Types.ObjectId(id);
-    return policyInfoModel.find({ user_id: o_id });
+  find(req) {
+    console.log(req);
+    let o_id = mongoose.type.ObjectId(req);
+    console.log("o_id", o_id);
+    return policyModel.find({ user_id: o_id });
   }
 };

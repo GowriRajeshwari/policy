@@ -9,8 +9,6 @@ module.exports = class agentService {
       policyCarrierModel
         .create(req)
         .then((data) => {
-          console.log("new data", data);
-
           return data;
         })
         .catch((err) => {

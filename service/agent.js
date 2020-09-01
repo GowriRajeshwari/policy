@@ -6,10 +6,9 @@ module.exports = class agentService {
     if (finddata) {
       return finddata;
     } else {
-      agentModel
+      await agentModel
         .create(req)
         .then((data) => {
-          console.log("new data", data);
           return data;
         })
         .catch((err) => {

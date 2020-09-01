@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { resume } = require("../logger/logger");
 
 const agentSchema = mongoose.Schema(
   {
