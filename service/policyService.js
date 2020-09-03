@@ -15,34 +15,46 @@ let policyInfoService = new policyInfo();
 const Excel = require("exceljs");
 var workbook = new Excel.Workbook();
 module.exports = class PolicyAdd {
-  policyAdd(req) {
+  policyAdd(operation) {
     return new Promise((resolve, reject) => {
+      console.log(operation);
       agentService
-        .addAgent(req)
+        .addAgent({
+          agent_name: operation.agent_name,
+        })
         .then((agentServiceData) => {
-          // resolve(data);
           userAccountService
-            .userAccount(req)
+            .userAccount({ account_name: operation.account_name })
             .then((userAccountServiceData) => {
-              // resolve(data);
-
+              let userData = {
+                first_name: operation.first_name,
+                Dob: operation.Dob,
+                email: operation.email,
+                phone_number: operation.phone_number,
+                zip_code: operation.zip_code,
+                state: operation.state,
+                address: operation.address,
+                // gender: operation.gender,
+                user_type: operation.user_type,
+              };
               userService
-                .user(req)
+                .user(userData)
                 .then((userServicData) => {
-                  // resolve(data);
                   policyCarrierService
-                    .policyCarrier(req)
+                    .policyCarrier({
+                      company_name: operation.company_name,
+                    })
                     .then((policyCarrierServiceData) => {
-                      // resolve(data);
                       policyCategoryService
-                        .policyCategory(req)
+                        .policyCategory({
+                          category_name: operation.category_name,
+                        })
                         .then((policyCategoryServiceData) => {
-                          // resolve(policyCategoryServiceData);
-                          let policyInfoData = {
-                            policy_number: req.policy_number,
-                            policy_start_date: req.policy_start_date,
-                            policy_end_date: req.policy_end_date,
-                            policy_category: req.policy_category,
+                          var policy = {
+                            policy_number: operation.policy_number,
+                            policy_start_date: operation.policy_start_date,
+                            policy_end_date: operation.policy_end_date,
+                            policy_category: operation.policy_category,
                             agent_id: agentServiceData._id,
                             user_id: userServicData._id,
                             user_account_id: userAccountServiceData._id,
@@ -50,12 +62,16 @@ module.exports = class PolicyAdd {
                             policy_carrier_id: policyCarrierServiceData._id,
                           };
 
+                          // await operation.push(policy);
+                          // console.log(operation);
                           policyInfoService
-                            .policyInfo(policyInfoData)
+                            .policyInfo(policy)
                             .then((data) => {
+                              // console.log(data);
                               resolve(data);
                             })
                             .catch((err) => {
+                              console.log("err");
                               reject(err);
                             });
                         })

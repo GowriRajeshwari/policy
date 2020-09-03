@@ -1,19 +1,41 @@
 const policyCategory = require("../model/policyCategory.js");
 let policyCategoryModel = new policyCategory();
 module.exports = class agentService {
-  async policyCategory(req) {
-    let finddata = await policyCategoryModel.find(req);
-    if (finddata) {
-      return finddata;
-    } else {
+  policyCategory(req) {
+    return new Promise((resolve, reject) => {
       policyCategoryModel
-        .create(req)
+        .find(req)
         .then((data) => {
-          return data;
+          if (data) {
+            resolve(data);
+          } else {
+            policyCategoryModel
+              .create(req)
+              .then((data) => {
+                resolve(data);
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          }
         })
         .catch((err) => {
-          return err;
+          reject(err);
         });
-    }
+    });
+
+    // let finddata = await policyCategoryModel.find(req);
+    // if (finddata) {
+    //   return finddata;
+    // } else {
+    //   await policyCategoryModel
+    //     .create(req)
+    //     .then((data) => {
+    //       return data;
+    //     })
+    //     .catch((err) => {
+    //       return err;
+    //     });
+    // }
   }
 };

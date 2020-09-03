@@ -16,22 +16,18 @@ const userSchema = mongoose.Schema(
     },
     zip_code: {
       type: String,
-      unique: true,
     },
     state: {
       type: String,
-      unique: true,
     },
     address: {
       type: String,
     },
-    gender: {
-      type: String,
-      unique: true,
-    },
+    // gender: {
+    //   type: String,
+    // },
     user_type: {
       type: String,
-      unique: true,
     },
   },
   {

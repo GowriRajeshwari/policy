@@ -54,9 +54,7 @@ module.exports = class model {
     return polcyinfo.save();
   }
   find(req) {
-    console.log(req);
-    let o_id = mongoose.type.ObjectId(req);
-    console.log("o_id", o_id);
+    let o_id = mongoose.Types.ObjectId(req);
     return policyModel.find({ user_id: o_id });
   }
 };

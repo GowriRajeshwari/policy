@@ -30,19 +30,24 @@ const policyInfo = require("../model/policyInfo.js");
 let policyInfoModel = new policyInfo();
 module.exports = class agentService {
   async policyInfo(req) {
-    // let finddata = await policyInfoModel.find(req);
-    // if (finddata) {
-    //   return finddata;
-    // } else {
-    await policyInfoModel
-      .create(req)
-      .then((data) => {
-        // console.log("new data", data);
-        return data;
-      })
-      .catch((err) => {
-        return err;
-      });
-    // }
+    // await policyInfoModel
+    //   .create(req)
+    //   .then((data) => {
+    //     console.log("new data", data);
+    //     return data;
+    //   })
+    //   .catch((err) => {
+    //     return err;
+    //   });
+    return new Promise((resolve, reject) => {
+      policyInfoModel
+        .create(req)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
 };
